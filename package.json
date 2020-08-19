@@ -11,6 +11,9 @@
     "@babel/parser": "^7.11.3",
     "@babel/traverse": "^7.11.0"
   },
+  "scripts": {
+    "test": "rollup -c"
+  },
   "devDependencies": {
     "rollup-plugin-preserve-shebang": "^1.0.1"
   },
