@@ -1,9 +1,9 @@
 {
-  "name": "rollup-plugin-disable-packages",
-  "version": "3.0.0",
+  "name": "rollup-plugin-ast-template",
+  "version": "1.0.0",
   "main": "index.js",
-  "repository": "https://github.com/TeleworkInc/rollup-plugin-disable-packages.git",
-  "author": "Christian Lewis <hello@trytelework.com>",
+  "repository": "",
+  "author": "",
   "license": "MIT",
   "dependencies": {
     "@babel/core": "^7.11.1",
