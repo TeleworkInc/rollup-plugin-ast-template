@@ -1,4 +1,5 @@
-#!/usr/bin/env node
+/** @license MIT */
+
 const chalk = require( 'chalk' );
 const chalk1 = require( 'chalk' );
 const chalk2 = require( 'chalk' );

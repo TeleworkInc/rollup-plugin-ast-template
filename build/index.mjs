@@ -2,6 +2,8 @@ const fsevents = {};
 const chalk = {};
 const blue = {};
 const blueBright = {};
+/** @license MIT */
+
 console.log(chalk.blue('hello'));
 console.log(blue('test'), blueBright('test'));
 const TEST = {

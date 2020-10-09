@@ -1,5 +1,6 @@
+/** @license MIT */
+
 const disablePackages = require('.');
-const preserveShebang = require('rollup-plugin-preserve-shebang');
 
 module.exports = [
   {
@@ -8,10 +9,7 @@ module.exports = [
       file: 'build/index.mjs',
       format: 'esm',
     },
-    plugins: [
-      preserveShebang(),
-      disablePackages('chalk', 'fsevents'),
-    ],
+    plugins: [ disablePackages('chalk', 'fsevents') ],
   },
   {
     input: 'test/index.cjs',
@@ -19,9 +17,6 @@ module.exports = [
       file: 'build/index.cjs',
       format: 'cjs',
     },
-    plugins: [
-      preserveShebang(),
-      disablePackages('chalk', 'fsevents'),
-    ],
+    plugins: [ disablePackages('chalk', 'fsevents') ],
   },
 ];

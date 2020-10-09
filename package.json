@@ -14,9 +14,6 @@
   "scripts": {
     "test": "rollup -c"
   },
-  "devDependencies": {
-    "rollup-plugin-preserve-shebang": "^1.0.1"
-  },
   "peerDependencies": {
     "rollup": "^2.26.0"
   }

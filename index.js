@@ -1,16 +1,15 @@
-/**
- * @license MIT
- */
+/** @license MIT */
 /**
  * @fileoverview
- * Entry point for module.
+ * Put your logic here. This template was generated from
+ * `rollup-plugin-disable-packages`.
  */
 
 const babel = require('@babel/core');
 const shebangPattern = /^#!.*/;
 
 /**
- * Example from rollup-plugin-disable-packages, which replaces imports of a
+ * Example from `rollup-plugin-disable-packages`, which replaces imports of a
  * given list of packages with empty objects (`{}`).
  *
  * @param {...string} disabledPackages
@@ -72,7 +71,7 @@ const disablePackages = (...disabledPackages) => {
       code = code.replace(shebangPattern, '');
 
       const output = babel.transformSync(code, {
-        plugins: [ASTReplacements(...disabledPackages)],
+        plugins: [ ASTReplacements(...disabledPackages) ],
       });
 
       return output.code;

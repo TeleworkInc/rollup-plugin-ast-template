@@ -1,4 +1,5 @@
 'use strict';
+/** @license MIT */
 
 const chalk = {};
 const chalk1 = {};

@@ -1,4 +1,5 @@
-#!/usr/bin/env node
+/** @license MIT */
+
 import fsevents from 'fsevents';
 import chalk from 'chalk';
 import { blue, blueBright } from 'chalk';
