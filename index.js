@@ -1,52 +1,48 @@
 /** @license MIT */
 /**
  * @fileoverview
- * Put your logic here. This template was generated from
- * `rollup-plugin-disable-packages`.
+ * Put your logic here. This source comes from
+ * `rollup-plugin-class-fields-to-getters` which replaces class fields with
+ * getters for Closure Compiler compatibility.
  */
 
 const babel = require('@babel/core');
+const classProperties = require('@babel/plugin-syntax-class-properties');
 
 /**
  * Example from `rollup-plugin-disable-packages`, which replaces imports of a
  * given list of packages with empty objects (`{}`).
  *
- * @param {...string} disabledPackages
+ * @param {...?} args
+ * The arguments the AST replacement algorithm.
+ *
  * @return {object}
  */
-const ASTReplacements = (...disabledPackages) => ({
+const ASTReplacements = (...args) => ({
   visitor: {
-    CallExpression(path) {
-      if (
-        path.node.callee.name === 'require' &&
-          path.node.arguments.length === 1 &&
-          disabledPackages.includes(path.node.arguments[0].value)
-      ) {
-        const newNode = babel.types.objectExpression([]);
-        path.replaceWith(newNode);
-      }
-    },
-    ImportDeclaration(path) {
-      if (
-        path.node.source.type === 'StringLiteral' &&
-          disabledPackages.includes(path.node.source.value)
-      ) {
-        const newNodes = [];
-        for (const specifier of path.node.specifiers) {
-          const disableName = specifier.local.name;
-          const newNode = babel.types.variableDeclaration(
-              'const',
-              [
-                babel.types.variableDeclarator(
-                    babel.types.identifier(disableName),
-                    babel.types.objectExpression([]),
-                ),
-              ],
-          );
-          newNodes.push(newNode);
-        }
-        path.replaceWithMultiple(newNodes);
-      }
+    ClassProperty(path) {
+      /** The current node. */
+      const node = path.node;
+      /**
+       * Our replacement node. Of form:
+       * ```
+       * static get myMethod() { return ...; }
+       * ```
+       * */
+      const newNode = babel.types.classMethod(
+          'get',
+          node.key,
+          [],
+          babel.types.blockStatement([
+            babel.types.returnStatement(
+                node.value,
+            ),
+          ]),
+          node.computed,
+          node.static,
+      );
+      /** Replace the original node. */
+      path.replaceWith(newNode);
     },
   },
 });
@@ -54,22 +50,25 @@ const ASTReplacements = (...disabledPackages) => ({
 /**
  * Import `empty` instead of a given module.
  *
- * @param  {...string} disabledPackages
+ * @param  {...?} args
  * The name of the module to disable.
  *
  * @return {object}
  * The Rollup plugin object.
  */
-const disablePackages = (...disabledPackages) => {
+const thisPlugin = (...args) => {
   return {
-    name: 'disablePackages',
+    name: 'thisPlugin',
     renderChunk: async (code, chunk, options) => {
       const output = await babel.transformAsync(code, {
-        plugins: [ ASTReplacements(...disabledPackages) ],
+        plugins: [
+          classProperties,
+          ASTReplacements(...args),
+        ],
       });
       return output.code;
     },
   };
 };
 
-module.exports = disablePackages;
+module.exports = thisPlugin;
