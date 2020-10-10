@@ -6,7 +6,6 @@
  */
 
 const babel = require('@babel/core');
-const shebangPattern = /^#!.*/;
 
 /**
  * Example from `rollup-plugin-disable-packages`, which replaces imports of a
@@ -64,16 +63,10 @@ const ASTReplacements = (...disabledPackages) => ({
 const disablePackages = (...disabledPackages) => {
   return {
     name: 'disablePackages',
-    renderChunk: (code, chunk, options) => {
-      /**
-       * Handle shebangs which might be in the beginning of files.
-       */
-      code = code.replace(shebangPattern, '');
-
-      const output = babel.transformSync(code, {
+    renderChunk: async (code, chunk, options) => {
+      const output = await babel.transformAsync(code, {
         plugins: [ ASTReplacements(...disabledPackages) ],
       });
-
       return output.code;
     },
   };
